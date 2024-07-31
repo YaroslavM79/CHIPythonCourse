@@ -42,3 +42,12 @@ DB_PASS = 'postgres'
 DB_NAME = 'test_db'
 APP_SETTINGS = 'DevelopmentConfig'
 ```
+
+### Пример запроса
+```code
+http://127.0.0.1:5000/api/version
+```
+### note
+```code
+API_PREFIX set as /api
+```

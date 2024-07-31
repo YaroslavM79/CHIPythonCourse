@@ -2,13 +2,18 @@ import decimal
 import json
 import logging
 import traceback
+import importlib
 
 import requests
 from flasgger import Swagger
 from flask import Flask, jsonify
 from flask import Response
 from flask_restful import abort
-from .rest_api import api
+from app.resources.db import db
+from app.resources.logger import Logger
+from app.resources.api_config import ApiConfig
+from app.resources.rest_api import api
+from app.resources.config_manager import ConfigManager
 
 try:
     from http import HTTPStatus
@@ -37,13 +42,19 @@ def create_app():
     :return: RestServerApi-object
         :rtype RestServerApi
     """
+    config_manager = ConfigManager()
 
     app = Flask(__package__)
     app.url_map.strict_slashes = False
 
+    module_name = config_manager.app_settings
+    setting_class = getattr(importlib.import_module("config"), module_name)
+    config_settings = setting_class()
+    app.config.from_object(config_settings)
+
     # initialization of extension instances
     db.init_app(app=app)
-    db.reflect(app=app)
+    # db.reflect(app=app)
     with app.app_context():
         db.Model.metadata.reflect(db.engine)
 
@@ -64,19 +75,19 @@ def create_app():
     api.init_app(app=app)
     api.app = app
 
-    class JsonEncoder(app.json_encoder):
-        """A class to represent json correctly"""
+    # class JsonEncoder(app.json_encoder):
+    #     """A class to represent json correctly"""
+    #
+    #     def default(self, obj, *_args, **_kwargs):
+    #         """handle objects for json"""
+    #         if isinstance(obj, decimal.Decimal):
+    #             return float(obj)
+    #         if hasattr(obj, 'to_dict') and callable(obj.to_dict):
+    #             return obj.to_dict()
+    #         else:
+    #             return super().default(obj)
 
-        def default(self, obj, *_args, **_kwargs):
-            """handle objects for json"""
-            if isinstance(obj, decimal.Decimal):
-                return float(obj)
-            if hasattr(obj, 'to_dict') and callable(obj.to_dict):
-                return obj.to_dict()
-            else:
-                return super().default(obj)
-
-    app.json_encoder = JsonEncoder
+    # app.json_encoder = JsonEncoder
 
     return app
 

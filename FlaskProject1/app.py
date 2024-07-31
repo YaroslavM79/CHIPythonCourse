@@ -2,9 +2,9 @@ import logging
 import sys
 import socket
 
-from app.resources import create_app
+from app.resources.server import create_app
 
-app_logger = logging.getLogger("app.py")
+app_logger = logging.getLogger(__name__)
 
 
 def start_app():

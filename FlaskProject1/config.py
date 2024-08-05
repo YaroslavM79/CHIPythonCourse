@@ -46,6 +46,11 @@ class BaseConfig:
     FLASK_DEBUG = False
     TESTING = False
 
+    SWAGGER = {
+        'title': 'Flask API',
+        'uiversion': 3
+    }
+
     @property
     def BLUEPRINT_CONFIG(self):
         """

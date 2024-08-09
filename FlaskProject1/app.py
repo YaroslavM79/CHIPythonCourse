@@ -16,6 +16,7 @@ def start_app():
     ip_address = socket.gethostbyname(socket.gethostname())
     app_logger.info(f"======== REST service available at http://{ip_address}:{5000}/ ========")
     rest_app.run(host='0.0.0.0')
+    # rest_app.run(debug=True)
 
 
 if __name__ == "__main__":

@@ -1,34 +1,12 @@
-swagger: '2.0'
-info:
-  title: Get Users
-  description: Retrieve a list of all users.
-  version: 1.0.0
-basePath: /api/v1
-schemes:
-  - http
-
-paths:
-  /users:
-    get:
-      summary: Get Users
-      description: Retrieve a list of all users.
-      responses:
-        200:
-          description: A list of users.
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/User'
-
-definitions:
-  User:
-    type: object
-    properties:
-      id:
-        type: integer
-      username:
-        type: string
-      email:
-        type: string
-      role_id:
-        type: integer
+Return all users
+---
+get:
+  description: Return all users
+  security:
+    - ApiKeyAuth: []
+  responses:
+    200:
+      description: Return a list of all users
+      content:
+        application/json:
+        schema: UserSchema

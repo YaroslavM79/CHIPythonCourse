@@ -47,8 +47,7 @@ class BaseConfig:
     TESTING = False
 
     SWAGGER = {
-        'title': 'Flask API',
-        'uiversion': 3
+        'uiversion': 3,
     }
 
     @property

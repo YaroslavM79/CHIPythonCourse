@@ -14,6 +14,7 @@ from app.resources.logger import Logger
 from app.resources.api_config import ApiConfig
 from app.resources.rest_api import api
 from app.resources.config_manager import ConfigManager
+from app.resources.swagger import generate_template
 
 try:
     from http import HTTPStatus
@@ -65,7 +66,10 @@ def create_app():
     log.setLevel(logger.log_level)
     sql_log = logging.getLogger('sqlalchemy.engine')
     sql_log.setLevel(logger.log_level)
-    Swagger(app=app, parse=True, validation_error_handler=validation_handler)
+
+    template = generate_template(app=app)
+    # Swagger(app=app, parse=True, template=template, validation_error_handler=validation_handler)
+    Swagger(app=app, parse=True, template=template, validation_error_handler=validation_handler)
 
     # register all rest endpoints resources
     ApiConfig(rest_app=app, bp_config=app.config['BLUEPRINT_CONFIG'])

@@ -8,7 +8,8 @@ __all__ = ['Articles']
 
 
 class Articles(RestApiServer):
-    @swag_from("documentation/get_user.yaml")
+
+    # @swag_from("documentation/get_user.yaml")
     def get(self, id):
         user = UserService.get_user_by_id(id)
         if user:

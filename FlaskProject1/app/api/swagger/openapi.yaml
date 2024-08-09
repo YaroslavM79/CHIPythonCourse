@@ -1,0 +1,101 @@
+openapi: 3.0.0
+info:
+  title: Flask API
+  version: 1.0.0
+  description: API for managing users, roles, and articles
+Servers:
+ - url: /api/v1
+    description: Base path for API version 1
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        username:
+          type: string
+        email:
+          type: string
+        role_id:
+          type: integer
+
+    UserCreate:
+      type: object
+      required:
+        - username
+        - email
+        - role_id
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+        role_id:
+          type: integer
+
+    UserUpdate:
+      type: object
+      required:
+        - username
+        - email
+        - role_id
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+        role_id:
+          type: integer
+
+    Role:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+
+    Article:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        content:
+          type: string
+        author_id:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    ArticleCreate:
+      type: object
+      required:
+        - title
+        - content
+        - author_id
+      properties:
+        title:
+          type: string
+        content:
+          type: string
+        author_id:
+          type: integer
+
+    ArticleUpdate:
+      type: object
+      required:
+        - title
+        - content
+      properties:
+        title:
+          type: string
+        content:
+          type: string

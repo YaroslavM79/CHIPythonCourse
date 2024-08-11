@@ -1,2 +1,2 @@
-from .version_info import *
-__all__ = version_info.__all__
+from .view import *
+__all__ = view.__all__

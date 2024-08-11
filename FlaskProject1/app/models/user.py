@@ -11,14 +11,6 @@ class User(db.Model):
     role_id = db.Column(db.Integer, db.ForeignKey('role.id'), nullable=False)
     articles = db.relationship('Article', backref='author', lazy=True)
 
-    def to_dict(self):
-        return {
-            'id': self.id,
-            'username': self.username,
-            'email': self.email,
-            'role_id': self.role_id
-        }
-
     @classmethod
     def get_all(cls):
         return cls.query.all()

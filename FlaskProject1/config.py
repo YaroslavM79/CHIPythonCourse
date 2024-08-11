@@ -2,7 +2,7 @@
 classes that containing settings variables for all environments.
 """
 import os
-from blueprints_config import SUPPORTED_APP_BLUEPRINTS, DEBUG_APP_BLUEPRINTS, TEST_APP_BLUEPRINTS
+from blueprints_config import SYSTEM_APP_BLUEPRINTS, SUPPORTED_APP_V1_BLUEPRINTS, DEBUG_APP_BLUEPRINTS, TEST_APP_BLUEPRINTS
 
 __all__ = ['ProductionConfig', 'DevelopmentConfig', 'TestingConfig']
 
@@ -39,16 +39,18 @@ class BaseConfig:
     # Blueprints defaults
     DEFAULT_ITEMS_PER_PAGE = 50
 
-    # api prefix for all endpoints.
-    API_PREFIX = '/api'
-
     FLASK_ENV = "production"
     FLASK_DEBUG = False
     TESTING = False
 
-    SWAGGER = {
-        'uiversion': 3,
-    }
+    API_TITLE = 'Flask app api 1'
+    API_VERSION = 'v1'
+    OPENAPI_VERSION = '3.0.2'
+    OPENAPI_URL_PREFIX = '/api/v1'
+    OPENAPI_SWAGGER_UI_PATH = '/swagger'
+    OPENAPI_SWAGGER_UI_URL = 'https://cdn.jsdelivr.net/npm/swagger-ui-dist/'
+
+    SYSTEM_BLUEPRINTS = SYSTEM_APP_BLUEPRINTS
 
     @property
     def BLUEPRINT_CONFIG(self):
@@ -58,8 +60,8 @@ class BaseConfig:
         return self._blueprint_config
 
     def __init__(self):
-        self._blueprint_config = dict()
-        self._blueprint_config.update(SUPPORTED_APP_BLUEPRINTS)
+        self._blueprint_config = list()
+        self._blueprint_config.extend(SUPPORTED_APP_V1_BLUEPRINTS)
 
 
 class ProductionConfig(BaseConfig):
@@ -82,8 +84,8 @@ class DevelopmentConfig(BaseConfig):
 
     def __init__(self):
         super().__init__()
-        self._blueprint_config.update(DEBUG_APP_BLUEPRINTS)
-        self._blueprint_config.update(TEST_APP_BLUEPRINTS)
+        self._blueprint_config.extend(DEBUG_APP_BLUEPRINTS)
+        self._blueprint_config.extend(TEST_APP_BLUEPRINTS)
 
 
 class TestingConfig(BaseConfig):
@@ -95,5 +97,5 @@ class TestingConfig(BaseConfig):
 
     def __init__(self):
         super().__init__()
-        self._blueprint_config.update(DEBUG_APP_BLUEPRINTS)
-        self._blueprint_config.update(TEST_APP_BLUEPRINTS)
+        self._blueprint_config.extend(DEBUG_APP_BLUEPRINTS)
+        self._blueprint_config.extend(TEST_APP_BLUEPRINTS)

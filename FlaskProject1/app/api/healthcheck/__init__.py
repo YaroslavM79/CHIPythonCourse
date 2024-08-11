@@ -1,3 +1,3 @@
-from .healthcheck import *
+from .view import *
 
-__all__ = healthcheck.__all__
+__all__ = view.__all__

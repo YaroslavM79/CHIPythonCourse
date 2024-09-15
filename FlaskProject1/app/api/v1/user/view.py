@@ -4,13 +4,30 @@ from flask_smorest import Blueprint, abort
 from flask.views import MethodView
 from flask import request
 
+<<<<<<< HEAD
 __all__ = ['UserResource']
+=======
+from app.resources.rest_api_server import RestApiServer
+from app.db_operatios.user_service import UserService
+from app.schemas import UserSchema
+from flask_restful import Resource
+>>>>>>> 00bf3f0251235c4e81305227ef7887b5f84564da
 
 api_bp = Blueprint('User', 'user', url_prefix='/user', description='Operations on users')
 
 
+<<<<<<< HEAD
 @api_bp.route('/')
 class UserResource(MethodView):
+=======
+class User(Resource):
+    @swag_from("app/api/swagger/openapi.yaml")
+    def get(self, id):
+        user = UserService.get_user_by_id(id)
+        if user:
+            return self.create_response(user)
+        return abort(404, description={'message': 'User not found'})
+>>>>>>> 00bf3f0251235c4e81305227ef7887b5f84564da
 
     @api_bp.response(200, UserSchema(many=True))
     def get(self):

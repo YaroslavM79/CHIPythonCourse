@@ -11,7 +11,12 @@ from app.resources.logger import Logger
 from app.resources.api_config import ApiConfig
 from app.resources.rest_api import api
 from app.resources.config_manager import ConfigManager
+<<<<<<< HEAD
 
+=======
+from app.resources.swagger import generate_template
+from flask_cors import CORS
+>>>>>>> 00bf3f0251235c4e81305227ef7887b5f84564da
 
 try:
     from http import HTTPStatus
@@ -34,6 +39,8 @@ def create_app():
     app = Flask(__package__)
     app.url_map.strict_slashes = False
 
+    CORS(app)
+
     module_name = config_manager.app_settings
     setting_class = getattr(importlib.import_module("config"), module_name)
     config_settings = setting_class()
@@ -53,6 +60,17 @@ def create_app():
     sql_log = logging.getLogger('sqlalchemy.engine')
     sql_log.setLevel(logger.log_level)
 
+<<<<<<< HEAD
+=======
+    template = generate_template(app=app)
+
+    # Swagger(app=app, parse=True, template=template, validation_error_handler=validation_handler)
+    Swagger(app=app, parse=True, template=template, validation_error_handler=validation_handler)
+
+    # register all rest endpoints resources
+    ApiConfig(rest_app=app, bp_config=app.config['BLUEPRINT_CONFIG'])
+
+>>>>>>> 00bf3f0251235c4e81305227ef7887b5f84564da
     # Initialize api with created resources
     # api.prefix = app.config['API_PREFIX']
     api.init_app(app=app)

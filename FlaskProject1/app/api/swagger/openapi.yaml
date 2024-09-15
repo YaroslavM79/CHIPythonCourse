@@ -5,7 +5,6 @@ info:
   description: API for managing users, roles, and articles
 Servers:
  - url: /api/v1
-    description: Base path for API version 1
 
 components:
   schemas:
@@ -99,3 +98,25 @@ components:
           type: string
         content:
           type: string
+
+securitySchemes:
+  ApiKeyAuth:
+    type: apiKey
+    in: header
+    name: Authorization
+
+paths:
+  /users:
+    get:
+      description: Return all users
+      security:
+        - ApiKeyAuth: []
+      responses:
+        200:
+          description: Return a list of all users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'

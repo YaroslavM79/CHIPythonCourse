@@ -1,0 +1,38 @@
+tags:
+  - users
+summary: Create a new user
+parameters:
+  - in: body
+    name: body
+    required: true
+    schema:
+      type: object
+      required:
+        - username
+        - password
+        - role
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+        role:
+          type: string
+          enum:
+            - admin
+            - editor
+            - viewer
+responses:
+  201:
+    description: User created successfully
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+        id:
+          type: integer
+  400:
+    description: Missing or invalid data
+  409:
+    description: User already exists

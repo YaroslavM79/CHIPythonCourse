@@ -3,7 +3,7 @@ from flasgger.utils import swag_from
 from flask import request, jsonify
 from app.models.article import Article
 from app.models.user import User
-from app.api.helpers.authentication import role_required, get_current_user_id
+from app.api.helpers.authentication import role_required, get_current_user_id, article_permission_required
 
 
 __all__ = ['ArticleResources']
@@ -18,7 +18,8 @@ class ArticleResources(Resource):
             return {'message': 'Article not found'}, 404
         return article.to_dict(), 200
 
-    @role_required('admin', 'editor', 'viewer')
+    @article_permission_required(allowed_roles=['admin', 'editor', 'viewer'], allow_author=True)
+    @role_required(['admin', 'editor', 'viewer'])
     @swag_from('swagger/post_article.yml')
     def post(self):
         data = request.get_json()
@@ -37,7 +38,8 @@ class ArticleResources(Resource):
         article.save_to_db()
         return {'message': 'Article created', 'id': article.id}, 201
 
-    @role_required('admin', 'editor', 'viewer')
+    @article_permission_required(allowed_roles=['admin', 'editor'], allow_author=True)
+    @role_required(['admin', 'editor', 'viewer'])
     @swag_from('swagger/put_article.yml')
     def put(self, article_id):
         article = Article.get_by_id(article_id)
@@ -50,17 +52,12 @@ class ArticleResources(Resource):
 
         user = User.get_by_id(user_id)
 
-        # Permission checks
-        if user.role.name == 'admin' or \
-           (user.role.name == 'editor') or \
-           (user.id == article.author_id):
-            data = request.get_json()
-            article.update_in_db(**data)
-            return {'message': 'Article updated'}, 200
-        else:
-            return {'message': 'Permission denied'}, 403
+        data = request.get_json()
+        article.update_in_db(**data)
+        return {'message': 'Article updated'}, 200
 
-    @role_required('admin', 'viewer', 'editor')
+    @article_permission_required(allowed_roles=['admin'], allow_author=True)
+    @role_required(['admin', 'viewer', 'editor'])
     @swag_from('swagger/delete_article.yml')
     def delete(self, article_id):
         article = Article.get_by_id(article_id)
@@ -73,9 +70,5 @@ class ArticleResources(Resource):
 
         user = User.get_by_id(user_id)
 
-        # Permission checks
-        if user.role.name == 'admin' or (user.id == article.author_id):
-            article.delete_from_db()
-            return {'message': 'Article deleted'}, 200
-        else:
-            return {'message': 'Permission denied'}, 403
+        article.delete_from_db()
+        return {'message': 'Article deleted'}, 200

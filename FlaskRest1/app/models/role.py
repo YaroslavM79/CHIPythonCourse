@@ -7,8 +7,10 @@ class Role(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(20), unique=True, nullable=False)
 
-    # Отношение к пользователям
-    users = db.relationship('User', backref='role', lazy='dynamic')
+    users_role = db.relationship('User', backref='user_role', lazy='dynamic')
+
+    def __init__(self, name):
+        self.name = name
 
     @classmethod
     def get_all_roles(cls):
@@ -51,6 +53,6 @@ class Role(db.Model):
         roles = ['admin', 'editor', 'viewer']
         for role_name in roles:
             try:
-                Role.create_role(role_name)
+                cls.create_role(role_name)
             except ValueError:
                 continue

@@ -8,5 +8,4 @@ SUPPORTED_APP_V1_BLUEPRINTS = {
     '/user/<int:user_id>': 'app.api.v1.user.UserResources',
     '/articles': 'app.api.v1.articles.ArticleResources',
     '/article/<int:article_id>': 'app.api.v1.article.ArticleResources',
-
 }

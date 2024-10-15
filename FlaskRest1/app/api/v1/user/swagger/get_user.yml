@@ -7,6 +7,8 @@ parameters:
     required: true
     type: integer
     description: ID of the user to retrieve
+security:
+  - basicAuth: [ ]
 responses:
   200:
     description: User found

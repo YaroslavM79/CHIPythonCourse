@@ -1,12 +1,6 @@
 tags:
   - articles
 summary: Get articles
-parameters:
-  - in: path
-    name: article_id
-    required: false
-    type: integer
-    description: ID of the article to retrieve
 responses:
   200:
     description: Successful operation

@@ -2,7 +2,7 @@ from flask_restful import Resource
 from flasgger.utils import swag_from
 from flask import request
 from app.models.role import Role
-from app.api.helpers.authentication import role_required
+from app.api.helpers.authorization import role_required
 
 __all__ = ['RoleResources']
 

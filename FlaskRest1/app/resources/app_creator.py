@@ -4,7 +4,9 @@ from app.resources.api_config import ApiConfig
 from config import DevelopmentConfig
 from app.resources.db import db
 from app.resources.api import api
-from app.resources.swagger import swagger, SWAGGER_DEFINITIONS
+from app.resources.swagger import swagger, SWAGGER_DEFINITIONS, SECURITY_DEFINITIONS
+
+__all__ = ['AppCreator']
 
 
 class AppCreator:
@@ -29,6 +31,7 @@ class AppCreator:
             'title': 'Test APP',
             'uiversion': 3,
             'definitions': SWAGGER_DEFINITIONS,
+            'securityDefinitions': SECURITY_DEFINITIONS,
         }
 
         swagger.init_app(app=self.app)

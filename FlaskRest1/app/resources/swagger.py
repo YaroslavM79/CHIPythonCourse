@@ -53,7 +53,50 @@ SWAGGER_DEFINITIONS = {
             'title': {'type': 'string'},
             'content': {'type': 'string'}
         }
+    },
+    'BasicAuth': {
+        'type': 'http',
+        'scheme': 'basic'
+    },
+    'Error401': {
+        'description': 'Authentication required or invalid credentials',
+        'content': {
+            'application/json': {
+                'schema': {
+                    'type': 'object',
+                    'properties': {
+                        'message': {
+                            'type': 'string',
+                            'example': 'Missing username or password'
+                        }
+                    }
+                }
+            }
+        }
+    },
+    'UserError404': {
+        'description': 'User not found',
+        'content': {
+            'application/json': {
+                'schema': {
+                    'type': 'object',
+                    'properties': {
+                        'message': {
+                            'type': 'string',
+                            'example': 'User not found'
+                        }
+                    }
+                }
+            }
+        }
     }
+}
+
+SECURITY_DEFINITIONS = {
+        'basicAuth': {
+            'type': 'basic',
+            'description': 'Basic HTTP Authentication using username and password.'
+        }
 }
 
 swagger = Swagger()

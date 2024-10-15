@@ -1,6 +1,8 @@
 tags:
   - users
 summary: Get list of users
+security:
+  - basicAuth: [ ]
 responses:
   200:
     description: A list of users
@@ -8,3 +10,7 @@ responses:
       type: array
       items:
         $ref: '#/definitions/User'
+  401:
+    $ref: '#/definitions/Error401'
+  404:
+    $ref: '#/definitions/UserError404'

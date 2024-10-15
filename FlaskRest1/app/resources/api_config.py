@@ -1,6 +1,7 @@
 import importlib
 from app.resources.api import api
 
+
 class ApiConfig:
     def __init__(self, rest_app, bp_config: dict, api_prefix: str = ''):
         """

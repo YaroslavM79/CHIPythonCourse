@@ -1,7 +1,11 @@
 from app.resources.app_creator import AppCreator
 
 
-if __name__ == '__main__':
+def run_app():
     app_creator = AppCreator()
-    app = app_creator.get_app()
+    return app_creator.get_app()
+
+
+if __name__ == '__main__':
+    app = run_app()
     app.run(debug=True)

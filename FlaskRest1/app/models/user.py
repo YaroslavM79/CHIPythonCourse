@@ -8,10 +8,21 @@ class User(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
-    password_hash = db.Column(db.String(128), nullable=False)
+    password_hash = db.Column(db.String(255), nullable=False)
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'), nullable=False)
 
-    role = db.relationship('Role', backref=db.backref('users', lazy='dynamic'))
+    role_users = db.relationship('Role', backref=db.backref('role_users', lazy='dynamic'))
+
+    def __init__(self, username, password, role_id):
+        self.username = username
+        self.set_password(password)
+        self.role_id = role_id
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
 
     @classmethod
     def get_all_users(cls):
@@ -25,17 +36,11 @@ class User(db.Model):
     def get_by_username(cls, username):
         return cls.query.filter_by(username=username).first()
 
-    def set_password(self, password):
-        self.password_hash = generate_password_hash(password)
-
-    def check_password(self, password):
-        return check_password_hash(self.password_hash, password)
-
     def to_dict(self):
         return {
             'id': self.id,
             'username': self.username,
-            'role': self.role.name if self.role else None
+            'role_id': self.role_users.name if self.role_users else None
         }
 
     def save_to_db(self):

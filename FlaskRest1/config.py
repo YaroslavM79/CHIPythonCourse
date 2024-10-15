@@ -16,16 +16,16 @@ class BaseConfig:
 
     DB_HOSTNAME = os.environ.get('DB_HOSTNAME', 'postgres')
     DB_PORT = os.environ.get('DB_PORT', 5432)
-    DB_USER = os.environ.get('DB_USER', 'postgres')
-    DB_PASS = os.environ.get('DB_PASS', 'postgres')
-    DB_NAME = os.environ.get('DB_NAME', 'test_db')
+    POSTGRES_USER = os.environ.get('POSTGRES_USER', 'postgres')
+    POSTGRES_PASSWORD = os.environ.get('POSTGRES_PASSWORD', 'postgres')
+    POSTGRES_DB = os.environ.get('POSTGRES_DB', 'test_db')
 
     SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://{}:{}@{}:{}/{}'.format(
-        DB_USER,
-        DB_PASS,
+        POSTGRES_USER,
+        POSTGRES_PASSWORD,
         DB_HOSTNAME,
         DB_PORT,
-        DB_NAME
+        POSTGRES_DB
     )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_POOL_SIZE = 5
@@ -44,10 +44,6 @@ class BaseConfig:
     FLASK_ENV = "production"
     FLASK_DEBUG = False
     TESTING = False
-
-    SWAGGER = {
-        'uiversion': 3,
-    }
 
     @property
     def BLUEPRINT_CONFIG(self):

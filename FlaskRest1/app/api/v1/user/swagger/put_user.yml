@@ -12,6 +12,8 @@ parameters:
     required: true
     schema:
       $ref: '#/definitions/UpdateUser'
+security:
+  - basicAuth: [ ]
 responses:
   200:
     description: User updated successfully

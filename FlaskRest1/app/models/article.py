@@ -14,6 +14,11 @@ class Article(db.Model):
     # Relationship to User
     author = db.relationship('User', backref=db.backref('articles', lazy='dynamic'))
 
+    def __init__(self, title, content, author_id):
+        self.title = title
+        self.content = content
+        self.author_id = author_id
+
     @classmethod
     def get_all_articles(cls):
         return cls.query.all()

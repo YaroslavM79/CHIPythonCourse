@@ -22,6 +22,8 @@ parameters:
             - admin
             - editor
             - viewer
+security:
+  - basicAuth: [ ]
 responses:
   201:
     description: User created successfully

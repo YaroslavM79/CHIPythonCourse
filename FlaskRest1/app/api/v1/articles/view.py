@@ -13,14 +13,20 @@ __all__ = ['ArticleResources']
 class ArticleResources(Resource):
 
     @swag_from('swagger/get_articles.yml')
-    def get(self):
-        articles = Article.get_all_articles()
+    def get(self, *args, **kwargs):
+        keyword = request.args.get('keyword', None)
+
+        if keyword:
+            articles = Article.search_by_keyword(keyword)
+        else:
+            articles = Article.get_all_articles()
+
         return [article.to_dict() for article in articles], 200
 
     @login_required
     @role_required('admin', 'editor', 'viewer')
     @swag_from('swagger/post_article.yml')
-    def post(self, user):
+    def post(self, *args, **kwargs):
         data = request.get_json()
         if not data or not all(key in data for key in ('title', 'content')):
             return {'message': 'Missing data'}, 400

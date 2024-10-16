@@ -62,3 +62,10 @@ class User(db.Model):
         """Delete the user from the database"""
         db.session.delete(self)
         db.session.commit()
+
+    @classmethod
+    def search_by_keyword(cls, keyword):
+        search = f"%{keyword}%"
+        return cls.query.filter(
+            (cls.username.ilike(search))
+        ).all()

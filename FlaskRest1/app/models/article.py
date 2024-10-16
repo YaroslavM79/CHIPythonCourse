@@ -56,3 +56,10 @@ class Article(db.Model):
             'author_id': self.author_id,
             'author_username': self.author.username if self.author else None
         }
+
+    @classmethod
+    def search_by_keyword(cls, keyword):
+        search = f"%{keyword}%"
+        return cls.query.filter(
+            (cls.title.ilike(search)) | (cls.content.ilike(search))
+        ).all()

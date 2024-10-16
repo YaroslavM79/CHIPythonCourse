@@ -1,6 +1,13 @@
 tags:
   - articles
 summary: Get articles
+parameters:
+  - name: keyword
+    in: query
+    description: Search keyword to filter articles by title or content
+    required: false
+    schema:
+      type: string
 responses:
   200:
     description: Successful operation

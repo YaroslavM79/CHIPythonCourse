@@ -1,8 +1,5 @@
 from functools import wraps
-from flask import request, jsonify
-
 from app.models.article import Article
-from app.models.user import User
 
 
 def role_required(*required_roles):

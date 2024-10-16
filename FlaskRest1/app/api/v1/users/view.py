@@ -18,14 +18,19 @@ class ApiUsers(Resource):
     @login_required
     @role_required('admin')
     @swag_from('swagger/get_users.yml')
-    def get(self, user=None):
-        users = User.get_all_users()
+    def get(self, *args, **kwargs):
+        keyword = request.args.get('keyword', None)
+        if keyword:
+            users = User.search_by_keyword(keyword)
+        else:
+            users = User.get_all_users()
+
         return [{'id': user.id, 'username': user.username, 'role': user.user_role.name} for user in users], 200
 
     @login_required
     @role_required('admin')
     @swag_from('swagger/post_user.yml')
-    def post(self, user=None):
+    def post(self, *args, **kwargs):
         data = request.get_json()
         if not data or not all(key in data for key in ('username', 'password', 'role')):
             return {'message': 'Missing data'}, 400
